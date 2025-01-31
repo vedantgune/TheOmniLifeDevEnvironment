@@ -1,0 +1,28 @@
+{
+    "name": "Angular DevEnv",
+    "dockerComposeFile": [
+        "../../common-compose.yml"
+    ],
+    "service": "web_angular",
+    "workspaceFolder": "/p-nut-theomnilife-frontend",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "sourcegraph.cody-ai",
+                "esbenp.prettier-vscode",
+                "Angular.ng-template"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "editor.mouseWheelZoom": true
+            }
+        }
+    },
+    "forwardPorts": [
+        4200
+    ],
+    // Check if node_modules exist, if not then npm install, otherwise skip installation.
+    "overrideCommand": true,
+    "postCreateCommand": "[ ! -d node_modules ] && npm install --legacy-peer-deps --force || echo 'node_modules already exists, skipping installation'",
+    "postStartCommand": "sleep infinity"
+}

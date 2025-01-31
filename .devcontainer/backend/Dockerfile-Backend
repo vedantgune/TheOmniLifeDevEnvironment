@@ -1,0 +1,9 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+
+WORKDIR /p-nut-TheOmniLifeCoreApi
+
+VOLUME /p-nut-TheOmniLifeCoreApi 
+
+RUN dotnet dev-certs https
+
+CMD ["sh", "-c", "echo 'Started' && sleep infinity"]

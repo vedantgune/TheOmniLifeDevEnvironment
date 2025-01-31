@@ -1,0 +1,127 @@
+services:
+  # Dotnet Backend Service
+  web_dotnet:
+    container_name: web_dotnet
+    build:
+      context: ./.devcontainer/backend/
+      dockerfile: ./Dockerfile-Backend
+    command: dotnet watch run --project ./TheOmniLifeCoreApi/TheOmniLifeCoreApi.csproj
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - web_dotnet:/p-nut-TheOmniLifeCoreApi
+
+    networks:
+      - app
+      - db
+
+
+  # Angular Frontend Service
+  web_angular:
+    container_name: web_angular
+    build:
+      context: ./.devcontainer/frontend/
+      dockerfile: ./Dockerfile-Frontend
+    environment:
+      - NODE_ENV=development
+    command: npm start
+
+    ports:
+      - "4200:4200"
+    
+    volumes:
+      - web_angular:/p-nut-theomnilife-frontend
+
+    networks:
+      - app
+  
+  
+  
+  # Caddy Reverse Proxy Service
+  reverse-proxy:
+    image: caddy:latest
+    container_name: caddy_dev
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    ports:
+      - "80:80"
+      - "443:443"
+
+    networks: 
+      - app
+      - db
+
+  # MySQL Database Service
+  db:
+    image: mysql:latest
+    container_name: db
+    restart: always
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app
+      - db
+
+
+  # Django Automation Service
+  django_automation:
+    container_name: django_automation
+    build:
+      context: ./.devcontainer/automation/
+      dockerfile: ./Dockerfile-Automation
+    command: python reportgen/manage.py runserver 0.0.0.0:8000
+    restart: always
+    env_file:
+      - ./.env
+    depends_on:
+      db:
+        condition: service_healthy
+    
+    volumes:
+      - django_automation:/pnut-reportautomationbackend
+      - python_packages:/usr/local/lib/python3.12/site-packages/
+
+    networks:
+      - app
+      - db
+
+  # Appsmith Service
+  appsmith:
+    image: appsmith/appsmith-ce:latest
+    container_name: appsmith_dev
+    volumes:
+      - appsmith:/appsmith-stacks
+
+    networks:
+      - app
+      - db
+ 
+volumes:
+  db:
+  appsmith:
+  web_dotnet:
+  web_angular:
+  django_automation:
+  python_packages:
+
+
+
+networks:
+  app:
+    driver: bridge
+
+  db:
+    driver: bridge
