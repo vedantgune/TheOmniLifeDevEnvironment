@@ -1,0 +1,12 @@
+FROM python:3.12
+
+# Add build arguments and SSH requirements
+RUN apt-get update && apt-get install -y \
+    git openssh-client default-mysql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /pnut-reportautomationbackend
+
+VOLUME /pnut-reportautomationbackend
+
+CMD ["sh", "-c", "echo Started && sleep infinity"]

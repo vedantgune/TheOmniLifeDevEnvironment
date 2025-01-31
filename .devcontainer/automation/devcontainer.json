@@ -1,0 +1,29 @@
+{
+    "name": "Automation DevEnv",
+    "dockerComposeFile": [
+        "../../common-compose.yml"
+    ],
+    "service": "django_automation",
+    "workspaceFolder": "/pnut-reportautomationbackend",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "sourcegraph.cody-ai",
+                "ms-python.python",
+                "ms-python.debugpy",
+                "ms-python.vscode-pylance"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "editor.mouseWheelZoom": true
+            }
+        }
+    },
+    "forwardPorts": [
+        8000
+    ],
+    // Check if requirements.txt exists, if found then pip install, otherwise skip installation.
+    "overrideCommand": true,
+    "postCreateCommand": "[ -f requirements.txt ] && pip install --no-cache -r requirements.txt || echo 'No requirements.txt found, skipping installation'",
+    "postStartCommand": "sleep infinity"
+}

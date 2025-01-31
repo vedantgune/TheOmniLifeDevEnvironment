@@ -1,0 +1,27 @@
+{
+    "name": "Dotnet DevEnv",
+    "dockerComposeFile": [
+        "../../common-compose.yml"
+    ],
+    "service": "web_dotnet",
+    "workspaceFolder": "/p-nut-TheOmniLifeCoreApi",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "sourcegraph.cody-ai",
+                "ms-dotnettools.csdevkit",
+                "ms-dotnettools.vscode-dotnet-pack",
+                "ms-dotnettools.csharp"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "editor.mouseWheelZoom": true
+            }
+        }
+    },
+    "forwardPorts": [
+        5000
+    ],
+    "overrideCommand": true,
+    "postCreateCommand": "sleep infinity"
+}

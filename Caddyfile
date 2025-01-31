@@ -1,0 +1,17 @@
+pnut.localhost {
+    tls internal
+
+    reverse_proxy web_angular:4200
+
+    header {
+        Access-Control-Allow-Origin *
+        Access-Control-Allow-Methods *
+        Access-Control-Allow-Headers *
+    }
+
+    log {
+        output file /var/log/access.log
+        level debug
+    }
+}
+

@@ -1,0 +1,11 @@
+FROM node:22
+
+RUN apt-get update && apt-get install -y \
+    git openssh-client
+
+WORKDIR /p-nut-theomnilife-frontend
+
+
+VOLUME /p-nut-theomnilife-frontend
+
+CMD ["sh", "-c", "echo Started && sleep infinity"]
