@@ -6,12 +6,14 @@ services:
       context: ./.devcontainer/backend/
       dockerfile: ./Dockerfile-Backend
     command: dotnet watch run --project ./TheOmniLifeCoreApi/TheOmniLifeCoreApi.csproj
+
     depends_on:
       db:
         condition: service_healthy
+
     volumes:
       - web_dotnet:/p-nut-TheOmniLifeCoreApi
-
+      
     networks:
       - app
       - db
@@ -23,15 +25,11 @@ services:
     build:
       context: ./.devcontainer/frontend/
       dockerfile: ./Dockerfile-Frontend
-    environment:
-      - NODE_ENV=development
     command: npm start
-
-    ports:
-      - "4200:4200"
     
     volumes:
       - web_angular:/p-nut-theomnilife-frontend
+      - ./certs:/etc/certs
 
     networks:
       - app
@@ -39,18 +37,20 @@ services:
   
   
   # Caddy Reverse Proxy Service
-  reverse-proxy:
-    image: caddy:latest
-    container_name: caddy_dev
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+  nginx:
+    image: nginx:alpine
     ports:
-      - "80:80"
-      - "443:443"
+        - "80:80"
+    volumes:
+        - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+        - web_angular
+        - web_dotnet
 
-    networks: 
+    networks:
       - app
       - db
+
 
   # MySQL Database Service
   db:
@@ -116,6 +116,8 @@ volumes:
   web_angular:
   django_automation:
   python_packages:
+  # certs:
+  nginx_logs:
 
 
 
