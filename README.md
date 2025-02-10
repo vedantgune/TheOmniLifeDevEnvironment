@@ -18,6 +18,7 @@ Before you begin, ensure you have the following installed:
 - [VS Code Remote - Containers Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
 ## Directory Structure
+```bash
 .
 ├── Caddyfile                 # Configuration for reverse proxy
 ├── common-compose.yml        # Docker Compose configuration for all containers
@@ -34,6 +35,8 @@ Before you begin, ensure you have the following installed:
 ├── .env                      # Environment variables
 ├── sql_install.sh            # SQL installation script (if needed)
 ├── .gitignore                # Git ignore file
+```
+*NOTE:* Make sure to add .env file with proper environment variables, otherwise containers won't start.
 
 ## Getting Started
 ### 1. Clone the Repository
