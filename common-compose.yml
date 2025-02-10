@@ -5,15 +5,6 @@ services:
     build:
       context: ./.devcontainer/backend/
       dockerfile: ./Dockerfile-Backend
-<<<<<<< HEAD
-    command: dotnet watch run --project ./TheOmniLifeCoreApi/TheOmniLifeCoreApi.csproj
-    depends_on:
-      db:
-        condition: service_healthy
-    volumes:
-      - web_dotnet:/p-nut-TheOmniLifeCoreApi
-
-=======
     command: dotnet watch run --project ./TheOmniLifeCoreApi
 
     depends_on:
@@ -26,13 +17,10 @@ services:
     volumes:
       - web_dotnet:/p-nut-TheOmniLifeCoreApi
       
->>>>>>> devenv
     networks:
       - app
       - db
 
-<<<<<<< HEAD
-=======
     deploy:
       resources:
         limits:
@@ -42,7 +30,6 @@ services:
           cpus: 1
           memory: 2G
 
->>>>>>> devenv
 
   # Angular Frontend Service
   web_angular:
@@ -50,31 +37,13 @@ services:
     build:
       context: ./.devcontainer/frontend/
       dockerfile: ./Dockerfile-Frontend
-<<<<<<< HEAD
-    environment:
-      - NODE_ENV=development
     command: npm start
-
-    ports:
-      - "4200:4200"
-=======
-    command: npm start
->>>>>>> devenv
     
     volumes:
       - web_angular:/p-nut-theomnilife-frontend
 
     networks:
       - app
-<<<<<<< HEAD
-  
-  
-  
-  # Caddy Reverse Proxy Service
-  reverse-proxy:
-    image: caddy:latest
-    container_name: caddy_dev
-=======
 
     deploy:
       resources:
@@ -87,7 +56,6 @@ services:
   reverse-proxy:
     image: caddy:latest
     container_name: reverse-proxy
->>>>>>> devenv
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
     ports:
@@ -97,8 +65,6 @@ services:
     networks: 
       - app
       - db
-<<<<<<< HEAD
-=======
       
     deploy:
       resources:
@@ -106,7 +72,6 @@ services:
           cpus: 0.5
           memory: 512M
 
->>>>>>> devenv
 
   # MySQL Database Service
   db:
@@ -131,15 +96,12 @@ services:
       - app
       - db
 
-<<<<<<< HEAD
-=======
     deploy:
       resources:
         limits:
           cpus: 0.2
           memory: 512M
 
->>>>>>> devenv
 
   # Django Automation Service
   django_automation:
@@ -163,12 +125,6 @@ services:
       - app
       - db
 
-<<<<<<< HEAD
-  # Appsmith Service
-  appsmith:
-    image: appsmith/appsmith-ce:latest
-    container_name: appsmith_dev
-=======
     deploy:
       resources:
         limits:
@@ -180,16 +136,12 @@ services:
   appsmith:
     image: appsmith/appsmith-ce:latest
     container_name: appsmith
->>>>>>> devenv
     volumes:
       - appsmith:/appsmith-stacks
 
     networks:
       - app
       - db
-<<<<<<< HEAD
- 
-=======
 
     deploy:
       resources:
@@ -197,7 +149,6 @@ services:
           cpus: 1.5
           memory: 3G
 
->>>>>>> devenv
 volumes:
   db:
   appsmith:
@@ -205,11 +156,7 @@ volumes:
   web_angular:
   django_automation:
   python_packages:
-<<<<<<< HEAD
-
-=======
   nginx_logs:
->>>>>>> devenv
 
 
 networks:

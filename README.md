@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-# TheOmniLifeDevEnvironment
-Docker Development Environment for Pnut
-=======
-
-
 # TheOmniLifeDevEnvironment
 
 ## Overview
@@ -124,4 +118,3 @@ Make sure your `/etc/hosts` file includes `127.0.0.1 pnut.localhost` for local r
 -   **DevContainer not opening?** Ensure you have **Docker** and **VS Code Remote Containers extension** installed.
 -   **Network issues?** Restart Docker and reopen VS Code.
 -   **Containers not starting?** Run `docker-compose up -d` inside the project folder.
->>>>>>> devenv
