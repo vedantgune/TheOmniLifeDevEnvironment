@@ -11,7 +11,12 @@
                 "sourcegraph.cody-ai",
                 "ms-python.python",
                 "ms-python.debugpy",
+<<<<<<< HEAD
                 "ms-python.vscode-pylance"
+=======
+                "ms-python.vscode-pylance",
+                "cweijan.vscode-mysql-client2"
+>>>>>>> devenv
             ],
             "settings": {
                 "editor.formatOnSave": true,

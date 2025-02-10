@@ -11,7 +11,12 @@
                 "sourcegraph.cody-ai",
                 "ms-dotnettools.csdevkit",
                 "ms-dotnettools.vscode-dotnet-pack",
+<<<<<<< HEAD
                 "ms-dotnettools.csharp"
+=======
+                "ms-dotnettools.csharp",
+                "cweijan.vscode-mysql-client2"
+>>>>>>> devenv
             ],
             "settings": {
                 "editor.formatOnSave": true,
