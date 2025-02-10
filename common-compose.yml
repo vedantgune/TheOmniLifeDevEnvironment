@@ -5,11 +5,14 @@ services:
     build:
       context: ./.devcontainer/backend/
       dockerfile: ./Dockerfile-Backend
-    command: dotnet watch run --project ./TheOmniLifeCoreApi/TheOmniLifeCoreApi.csproj
+    command: dotnet watch run --project ./TheOmniLifeCoreApi
 
     depends_on:
       db:
         condition: service_healthy
+
+    env_file:
+      - ./.env
 
     volumes:
       - web_dotnet:/p-nut-TheOmniLifeCoreApi
@@ -17,6 +20,15 @@ services:
     networks:
       - app
       - db
+
+    deploy:
+      resources:
+        limits:
+          cpus: 2
+          memory: 4G
+        reservations:
+          cpus: 1
+          memory: 2G
 
 
   # Angular Frontend Service
@@ -29,27 +41,36 @@ services:
     
     volumes:
       - web_angular:/p-nut-theomnilife-frontend
-      - ./certs:/etc/certs
 
     networks:
       - app
-  
-  
-  
-  # Caddy Reverse Proxy Service
-  nginx:
-    image: nginx:alpine
-    ports:
-        - "80:80"
-    volumes:
-        - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-        - web_angular
-        - web_dotnet
 
-    networks:
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 2G
+  
+  
+  # Nginx Reverse Proxy Service
+  reverse-proxy:
+    image: caddy:latest
+    container_name: reverse-proxy
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    ports:
+      - "80:80"
+      - "443:443"
+
+    networks: 
       - app
       - db
+      
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 512M
 
 
   # MySQL Database Service
@@ -75,6 +96,12 @@ services:
       - app
       - db
 
+    deploy:
+      resources:
+        limits:
+          cpus: 0.2
+          memory: 512M
+
 
   # Django Automation Service
   django_automation:
@@ -98,17 +125,30 @@ services:
       - app
       - db
 
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 2G
+
+
   # Appsmith Service
   appsmith:
     image: appsmith/appsmith-ce:latest
-    container_name: appsmith_dev
+    container_name: appsmith
     volumes:
       - appsmith:/appsmith-stacks
 
     networks:
       - app
       - db
- 
+
+    deploy:
+      resources:
+        limits:
+          cpus: 1.5
+          memory: 3G
+
 volumes:
   db:
   appsmith:
@@ -116,9 +156,7 @@ volumes:
   web_angular:
   django_automation:
   python_packages:
-  # certs:
   nginx_logs:
-
 
 
 networks:

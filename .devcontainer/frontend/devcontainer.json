@@ -10,7 +10,8 @@
             "extensions": [
                 "sourcegraph.cody-ai",
                 "esbenp.prettier-vscode",
-                "Angular.ng-template"
+                "Angular.ng-template",
+                "cweijan.vscode-mysql-client2"
             ],
             "settings": {
                 "editor.formatOnSave": true,

@@ -1,0 +1,37 @@
+{
+    # Enable internal TLS for local development
+    local_certs
+}
+
+pnut.localhost {
+    tls internal
+    handle /api/* {
+        reverse_proxy web_dotnet:5000 {
+            header_down Access-Control-Allow-Origin *
+            header_down Access-Control-Allow-Methods *
+            header_down Access-Control-Allow-Headers *
+        }
+    }
+
+    handle /automaiton {
+        reverse_proxy django_automation:8000 {
+            header_down Access-Control-Allow-Origin *
+            header_down Access-Control-Allow-Methods *
+            header_down Access-Control-Allow-Headers *
+        }
+    }
+
+    handle {
+        reverse_proxy web_angular:4200 {
+            header_down Access-Control-Allow-Origin *
+            header_down Access-Control-Allow-Methods *
+            header_down Access-Control-Allow-Headers *
+        }
+    }
+
+
+    log {
+        output stdout
+        level debug
+    }
+}
