@@ -1,20 +1,20 @@
+# Here I have seperated the services under different domains so, issues like uri stripping, will be avoided. And it also gives clearer understanding of which service is running under which domain.
+# I have seperated the services in 3 main domains, which are:
+# 1. Local web app (Angular & ASP.NET Core)
+# 2. Localhost Automation Service
+# 3. Localhost API Service
+
+
 {
     # Enable internal TLS for local development
     local_certs
 }
 
+# Local web app (Angular & ASP.NET Core)
 pnut.localhost {
     tls internal
     handle /api/* {
         reverse_proxy web_dotnet:5000 {
-            header_down Access-Control-Allow-Origin *
-            header_down Access-Control-Allow-Methods *
-            header_down Access-Control-Allow-Headers *
-        }
-    }
-
-    handle /automaiton {
-        reverse_proxy django_automation:8000 {
             header_down Access-Control-Allow-Origin *
             header_down Access-Control-Allow-Methods *
             header_down Access-Control-Allow-Headers *
@@ -29,9 +29,34 @@ pnut.localhost {
         }
     }
 
-
     log {
         output stdout
         level debug
+    }
+}
+
+
+
+# Localhost Automation Service
+pnut.automation.localhost {
+    tls internal
+    handle {
+        reverse_proxy django_automation:8000 {
+            header_down Access-Control-Allow-Origin *
+            header_down Access-Control-Allow-Methods *
+            header_down Access-Control-Allow-Headers *
+        }
+    }   
+}
+
+# Localhost Automation Service
+pnut.appsmith.localhost {
+    tls internal
+    handle {
+        reverse_proxy appsmith {
+            header_down Access-Control-Allow-Origin *
+            header_down Access-Control-Allow-Methods *
+            header_down Access-Control-Allow-Headers *
+        }
     }
 }
